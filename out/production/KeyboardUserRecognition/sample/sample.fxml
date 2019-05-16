@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller" >
+    <Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In lobortis dignissim ante, at pretium orci ullamcorper at. Mauris tristique vel velit vel fringilla. Cras id libero quis est pellentesque ullamcorper. Vivamus eu arcu feugiat, auctor enim non, dignissim neque. Cras cursus, mauris eu finibus tincidunt, nibh ligula laoreet neque, sit amet tincidunt erat tortor vitae velit. Aenean condimentum, magna sed sagittis scelerisque, dui ex rhoncus erat, ut tempor ipsum elit id erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.  Ut eget dui ante. Praesent mi nisl, condimentum nec nisl vel, aliquam laoreet lectus. Maecenas eu venenatis felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis maximus lorem non lorem consequat porta. Nunc vel laoreet diam. Aliquam auctor sapien id dapibus luctus. Aenean cursus dapibus imperdiet. Curabitur non porttitor enim. Morbi varius id est id iaculis. Nam ultrices scelerisque elit, vitae pretium ligula ultricies mattis. Praesent a orci euismod, condimentum metus in, volutpat diam. Cras blandit a ante eu vestibulum. Suspendisse potenti.  Nam quis rhoncus nibh. Cras sollicitudin nunc ut risus posuere, vitae accumsan diam rhoncus. Sed suscipit dapibus eros a feugiat. Cras in enim congue, vulputate metus vel, pulvinar nulla. Morbi et ante blandit, elementum elit quis, condimentum mi. Duis hendrerit massa mattis viverra interdum. Nam commodo placerat vestibulum. Proin et purus eleifend, volutpat felis imperdiet, gravida sem. Nullam ullamcorper eros non malesuada aliquet. Duis id magna eros. Vivamus vel urna ac eros molestie accumsan. Nulla cursus erat quis justo imperdiet, finibus venenatis ligula tristique. Donec sodales efficitur sollicitudin. Etiam nec mattis justo, vitae commodo ante. Suspendisse et lorem tellus.  Fusce fermentum felis elit, eu scelerisque dolor scelerisque eu. Cras pharetra eros rutrum massa maximus pretium. Praesent suscipit nunc eget ornare faucibus. Maecenas et elit pulvinar, eleifend orci vel, interdum arcu. Sed id eros luctus lacus suscipit vehicula a ut justo. Aliquam erat volutpat. Quisque urna nisi, convallis non massa vitae, viverra aliquet erat. Ut viverra, ligula et imperdiet ultrices, mi orci egestas nibh, vitae cursus quam lectus vel urna. Maecenas efficitur porttitor mauris, vitae porta mi facilisis faucibus. Suspendisse ac nibh eu lectus ornare feugiat vel at ligula. Phasellus tincidunt, quam ac volutpat convallis, lectus lectus venenatis dui, quis egestas metus nisl ut augue.  Etiam tortor erat, pretium vitae pellentesque vel, aliquam et nisi. Vestibulum cursus est sit amet risus porttitor, non ullamcorper sapien sagittis. Quisque tristique iaculis lorem. Maecenas eu blandit eros. Pellentesque non est hendrerit, tristique justo eu, euismod dolor. Nunc aliquam quam vel laoreet malesuada. In hac habitasse platea dictumst." wrapText="true" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+    <TextArea id="textArea" prefWidth="598.0" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" onKeyReleased="#keyReleased" onKeyPressed="#keyPressed"/>
+    <Button onAction="#saveData" text="Save data" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+</GridPane>

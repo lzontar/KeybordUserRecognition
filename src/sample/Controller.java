@@ -9,8 +9,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.math.BigDecimal;
-
 import static java.math.BigDecimal.ROUND_HALF_UP;
+import org.apache.commons.math3.linear.*;
 
 public class Controller {
 
@@ -23,11 +23,13 @@ public class Controller {
     int ixCurrKey;
 
     //26 letters, 10 digits, comma, period and space
+    RealMatrix charCombMat;
     BigDecimal[][] charCombTimeSum = new BigDecimal[26 + 10 + 1 + 1 + 1][26 + 10 + 1 + 1 + 1];
     int[][] charCombReps = new int[26 + 10 + 1 + 1 + 1][26 + 10 + 1 + 1 + 1];
 
     BigDecimal pressedTime;
 
+    RealMatrix keyStrokeMat;
     BigDecimal[] keyStrokeTimeSum = new BigDecimal[26 + 10 + 1 + 1 + 1];
     int[] keyStrokeTimeReps = new int[26 + 10 + 1 + 1 + 1];
 
@@ -43,6 +45,9 @@ public class Controller {
             keyStrokeTimeSum[i] = BigDecimal.ZERO;
         }
         nOfBackSpaces = 0;
+        charCombMat = new Array2DRowRealMatrix(39,39);
+        keyStrokeMat = new Array2DRowRealMatrix(39,1);
+
     }
 
     @FXML
@@ -187,9 +192,9 @@ public class Controller {
         prevTimeReleased = currTimePressed;
     }
 
-    public void saveData() throws Exception {
+    public void saveData() {
         try {
-           for (int i = 0; i < charCombTimeSum.length; i++) {
+           /*for (int i = 0; i < charCombTimeSum.length; i++) {
                 for (int j = 0; j < charCombTimeSum[i].length; j++) {
                     BigDecimal ijAvgTime = charCombReps[i][j] != 0 ? charCombTimeSum[i][j].divide(new BigDecimal(charCombReps[i][j]).multiply(new BigDecimal(1_000_000_000)), 6, ROUND_HALF_UP) : BigDecimal.ZERO;
                     System.out.print(ijAvgTime.toString() + " ");
@@ -202,26 +207,33 @@ public class Controller {
                 System.out.print(iAvgTime.toString() + " ");
             }
             System.out.println();
-            System.out.println(nOfBackSpaces);
+            System.out.println(nOfBackSpaces);*/
+
             File charCombinationFile = new File("charCombinationAvgTime.mat");
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(charCombinationFile));
             for (int i = 0; i < charCombTimeSum.length; i++) {
+                double[] row = new double[charCombTimeSum[i].length];
                 for (int j = 0; j < charCombTimeSum[i].length; j++) {
                     BigDecimal ijAvgTime = charCombReps[i][j] != 0 ? charCombTimeSum[i][j].divide(new BigDecimal(charCombReps[i][j]).multiply(new BigDecimal(1_000_000_000)), 6, ROUND_HALF_UP) : BigDecimal.ZERO;
+                    row[j] = ijAvgTime.doubleValue();
                     writer.write(ijAvgTime.toString() + " ");
                 }
+                charCombMat.setRow(i, row);
                 writer.newLine();
             }
             writer.close();
 
-            File keystrokeFile = new File("keyStrokeAvgTime.mat");
+            File keyStrokeFile = new File("keyStrokeAvgTime.mat");
 
-            writer = new BufferedWriter(new FileWriter(keystrokeFile));
-            for (int i = 0; i < charCombTimeSum.length; i++) {
+            writer = new BufferedWriter(new FileWriter(keyStrokeFile));
+            double[] keyStrokeRow = new double[keyStrokeTimeSum.length];
+            for (int i = 0; i < keyStrokeTimeSum.length; i++) {
                 BigDecimal iAvgTime = keyStrokeTimeReps[i] != 0 ? keyStrokeTimeSum[i].divide(new BigDecimal(keyStrokeTimeReps[i]).multiply(new BigDecimal(1_000_000_000)), 6, ROUND_HALF_UP) : BigDecimal.ZERO;
+                keyStrokeRow[i] = iAvgTime.doubleValue();
                 writer.write(iAvgTime.toString() + " ");
             }
+            keyStrokeMat.setColumn( 0, keyStrokeRow);
             writer.close();
 
             File backspacesFile = new File("numBackspace.mat");
@@ -229,9 +241,36 @@ public class Controller {
             writer = new BufferedWriter(new FileWriter(backspacesFile));
             writer.write(Integer.toString(nOfBackSpaces));
             writer.close();
+
+            // ------------ PROCESS MATRICES -------------- //
+            processData();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.exit(0);
+    }
+
+    private void processData() {
+        if(charCombMat != null) {
+            SingularValueDecomposition charCombSVD = new SingularValueDecomposition(charCombMat);
+            double[] singularValues = charCombSVD.getSingularValues();
+
+            for(int i = 0; i < singularValues.length; i++) {
+                System.out.print(singularValues[i] + " ");
+            }
+            System.out.println();
+
+        }
+        if(keyStrokeMat != null) {
+            SingularValueDecomposition keyStrokeSVD = new SingularValueDecomposition(keyStrokeMat);
+            double[] singularValues = keyStrokeSVD.getSingularValues();
+            
+            for(int i = 0; i < singularValues.length; i++) {
+                System.out.print(singularValues[i] + " ");
+            }
+            System.out.println();
+
+        }
     }
 }
